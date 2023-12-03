@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="output.css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const generateButton = document.querySelector("#generate-button");
+        const downloadButton = document.querySelector("#download-button");
+        const qrCodeImage = document.querySelector("#qr-code-image");
+        const urlInput = document.querySelector("#url");
+        const colorInput = document.querySelector("#color");
+        const sizeInput = document.querySelector("#size");
+
+        generateButton.addEventListener("click", function () {
+          const url = urlInput.value.trim();
+          const color = colorInput.value.replace("#", "");
+          const size = sizeInput.value;
+
+          if (url === "") {
+            alert("Please enter a valid URL");
+            return;
+          }
+
+          const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(
+            url
+          )}&color=${color}&bgcolor=000000`;
+
+          qrCodeImage.src = apiUrl;
+          qrCodeImage.alt = "QR Code for " + url;
+
+          downloadButton.href = apiUrl;
+          downloadButton.download = "qrcode.png";
+          downloadButton.removeAttribute("disabled");
+        });
+
+        downloadButton.addEventListener("click", function () {
+          if (downloadButton.hasAttribute("disabled")) {
+            alert("Please generate a QR code first.");
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <!--
+// v0 by Vercel.
+// https://v0.dev/t/en4tIucp8u7
+-->
+    <section class="w-full h-full bg-gray-900 text-white">
+      <div class="container mx-auto px-6 py-8 md:py-16">
+        <div class="text-center">
+          <h1 class="text-3xl lg:text-5xl font-bold mb-4">QR Code Generator</h1>
+          <p class="text-lg lg:text-2xl text-gray-400">
+            Create your custom QR code in a snap!
+          </p>
+        </div>
+        <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div class="w-full max-w-md mx-auto">
+            <div
+              class="border text-card-foreground rounded-lg shadow-lg overflow-hidden bg-gray-800"
+              data-v0-t="card"
+            >
+              <div class="p-4">
+                <img
+                  id="qr-code-image"
+                  class="relative flex shrink-0 overflow-hidden w-64 h-64 mx-auto"
+                  alt="QR Code"
+                />
+
+                <h2 class="text-2xl font-bold text-center mt-4 mb-2">
+                  Your QR Code
+                </h2>
+                <p class="text-gray-400 text-center">
+                  Scan the QR code with your phone
+                </p>
+              </div>
+              <div class="p-4 border-t border-gray-700">
+                <a
+                  id="download-button"
+                  class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+                  disabled
+                >
+                  Download QR Code
+                </a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="mb-4">
+              <label for="url" class="block text-lg font-medium">URL</label
+              ><input
+                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1 text-black"
+                id="url"
+                placeholder="Enter your URL"
+                type="url"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="color" class="block text-lg font-medium">Color</label
+              ><input
+                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1"
+                id="color"
+                type="color"
+                value="#ffffff"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="size" class="block text-lg font-medium">Size</label
+              ><input
+                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 mt-1 text-black"
+                id="size"
+                placeholder="Enter size in pixels"
+                type="number"
+              />
+            </div>
+            <button
+              id="generate-button"
+              class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-primary hover:border-primary/90 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+            >
+              Generate QR Code
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="bg-gray-800 text-white py-4">
+      <div class="container mx-auto text-center">
+        <p class="text-sm">
+          © 2023
+          <a
+            href="https://bento.me/mddanish004"
+            class="text-primary-foreground hover:underline"
+            target="_blank"
+            >Created by Md Danish Ansari</a
+          >
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
